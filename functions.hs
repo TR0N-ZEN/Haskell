@@ -66,4 +66,4 @@ GetPythagoras = do
     b <- readLn
     print (Pythagoras a b)
 
-Pythagoras x y = sqrt (let square z = z * z in square x + square y) --'let' is used for local definition, for me it seem like the PREwritten version of 'where'
+Pythagoras x y = sqrt (let square z = z * z in square x + square y) --'let' is used for local definition, in comparison to where clauses 'where' 'let' is an expression, so as every expression it can be used inside other expressions
