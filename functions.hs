@@ -38,8 +38,8 @@ GetMax = do
 
 Max :: Int -> Int -> Int
 Max x y --following is case differentiation   
-    | x < y  = y
-    | x == y  = x --since x and y must be equal it doesnt matter which one i give back meaning i could also write '| x == y  = y'
+    | x < y  = y    --if x < y is true the value this function return is/equals y
+    | x == y  = x   --since x and y must be equal it doesnt matter which one i give back meaning i could also write '| x == y  = y'
     | otherwise = x
 
 
