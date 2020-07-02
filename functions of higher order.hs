@@ -1,4 +1,4 @@
-map :: (Int -> Int) -> [Int] -> [Int]
+map :: (Int -> Int) -> [Int] -> [Int] --map is a function taking a function (depicting from integers to integers) and an arry of integers. map returns an array of integers
 map f []            = []
 map f (x : xs)      = f x : map f xs
 
@@ -25,13 +25,14 @@ sumList xs          = foldr (*) 1 xs
 
 foldr sumList 0 [1, 2, 3, 4] --result should be 10
 foldr prodList 1 [1, 2, 3, 4] --result should be 24
+--foldr calculative-orperation neutral-element-of-calculative-orperation [...]
 
 ------------------------------------------
 
 filter :: (Int -> Bool) -> [Int] -> [Int]
 filter _ []         = []
 filter p (x : xs)
-    | p x               = x : filter p xs
+    | p x               = x : filter p xs --since the function p returns a bool it returns true or false causing this line to execute or not and consecutively letting the next line take action
     | otherwise         = filter p xs
 
 even :: Int -> Bool
@@ -53,12 +54,14 @@ compose f g x = f (g x)
 -----------------------------------------
 
 --partcial application of functions
+--means a function doesnt get enough parameters i.e. malnutritioned
 quicksort :: [Int] -> [Int]
 quicksort []        = []
 quicksort (x : xs)  = quicksort (filter (x >) xs) ++ [x] ++ quicksort (filter (x <=) xs)
+--here the functions (x >) and (x <=) passed to the filter functions are malnutritioned
 
 
 -----------------------------------------
 
 --anonymous/lambda functions
-\ n -> 2 * n 
+\ n -> n * 2  --'\ n -> n * 2' <=> 'f :: Int -> Int; f n = n * 2'
