@@ -46,3 +46,15 @@ max x y
 collapse :: Tree a -> [a]
 collapse Nil            = []
 collapse (Node n t1 t2) = collapse t1 ++ [n] ++ collapse t2 -- '++' is the list concatenation orperator
+
+----------------------------------------------------
+
+-- type checking
+
+f :: (t, Char) -> (t, [Char])
+
+
+g :: (int, [u]) -> Int
+
+h = g . f -- 'h' only works if 't' = Int and 'u' = [Char]
+
