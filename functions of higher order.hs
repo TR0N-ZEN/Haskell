@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -Wno-deferred-type-errors #-}
 module Main where
-    
+
+
 map' :: (Int -> Int) -> [Int] -> [Int] --map is a function taking a function (depicting from integers to integers) and an arry of integers. map returns an array of integers
 map' f []            = []
 map' f (x : xs)      = f x : map f xs
@@ -10,15 +11,14 @@ double x = x * 2
 
 --let list = [1, 2, 3, 4]
 
-
-
 ------------------------------------------
 
 foldr' :: (Int -> Int -> Int) -> Int -> [Int] -> Int
 --foldr is a function with three arguments, which are: 
     --First a function (Int -> Int -> Int) which seemingly has two integer arguments and returns an integer
-    --Second a an integer
-    --Third a list
+    --Second an integer
+    --Third a list of integers
+--and returns a single integer value
 foldr' _ z []        = z
 foldr' f z (x : xs)  = f x (foldr' f z xs)
 
@@ -35,10 +35,10 @@ prodList = foldr' (*) 1 -- <=> "prodList = foldr (*) 1" so prodList is an underf
 ------------------------------------------
 
 filter' :: (Int -> Bool) -> [Int] -> [Int]
-filter' _ []         = []
+filter' _ []         = [] -- _ is a wildcard and matches any data of type (Int -> Bool)
 filter' p (x : xs)
-    | p x               = x : filter' p xs --since the function p returns a bool it returns true or false causing this line to execute or not and consecutively letting the next line take action
-    | otherwise         = filter' p xs
+	| p x               = x : filter' p xs --since the function p returns a bool it returns true or false causing this line to execute or not and consecutively letting the next line take action if p x evaluats to false, p x can be considered ad conition p on x if that is fullfilled the filter doesn't filter it out
+	| otherwise         = filter' p xs
 
 even' :: Int -> Bool
 even' x = mod x 2 == 0
@@ -49,9 +49,9 @@ even' x = mod x 2 == 0
 
 compose :: (Int -> Int) -> (Int -> Int) -> Int -> Int
 --compose is a function with three arguments:
-    --First a function with one integer argument returning an integer 
-    --Second and function exacly like the first
-    --Third an integer
+	--First a function with one integer argument returning an integer 
+	--Second and function exacly like the first
+	--Third an integer
 compose f g x = f (g x)
 --a predefined writing style for composing functions is
 --'(f . g) x'  since '(f . g) x' <=> 'f (g x)'
@@ -70,9 +70,9 @@ quicksort (x : xs) = quicksort (filter (x >) xs) ++ [x] ++ quicksort (filter (x 
 
 main :: [b]
 main = do
-    map' double [1, 2, 3, 4] --result should be [2, 4, 6, 8]
-    sumList [1, 2, 3, 4] --result should be 10
-    prodList [1, 2, 3, 4] --result should be 24
-    filter' even' [1, 2, 3, 4]
-    --anonymous/lambda functions
-    \ n -> n * 2  --'\ n -> n * 2' <=> 'f :: Int -> Int; f n = n * 2' <=> (* 2)
+	map' double [1, 2, 3, 4] --result should be [2, 4, 6, 8]
+	sumList [1, 2, 3, 4] --result should be 10
+	prodList [1, 2, 3, 4] --result should be 24
+	filter' even' [1, 2, 3, 4]
+	--anonymous/lambda functions
+	\ n -> n * 2  --'\ n -> n * 2' <=> 'f :: Int -> Int; f n = n * 2' <=> (* 2)
