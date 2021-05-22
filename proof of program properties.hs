@@ -57,13 +57,13 @@ mapTree f (Node value Tree tree1 Tree tree2) 	= Node (f value) Tree (mapTree f t
 
 collapse :: Tree a -> [a]
 collapse Nil                      					= []
-collapse Node value Tree tree1 Tree tree2  	= collapse tree1 ++ [value] ++ collapse tree2
+collapse Node value Tree tree1 Tree tree2  	= collapse Tree tree1 ++ [value] ++ collapse Tree tree2
 
 --what we are trying to prove a.k.a. induction hypothesis: let Tree::a
 collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
 
--- P(a): Tree   -> {0, 1}
--- P(a): a     	-> collapse (mapTree f (a)) = map f (collapse (a))
+-- P(a): Tree   -> { 0, 1 }
+-- P(a): a     	-> collapse (mapTree f a) = map f (collapse a)
 
 -- induction beginning: a = y = Nil
 -- P(y): y 			-> collapse(mapTree f y) = map f (collapse y)
@@ -75,18 +75,21 @@ collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that wh
 -- P(Nil) = 1
 
 --induction prerequisites:
--- P(y): y      -> collapse (mapTree f (y)) = map f (collapse (y))
+-- P(y): y      -> collapse (mapTree f y) = map f (collapse y)
 -- P(y) = 1
 
---induction step: let T = Node T_value Tree t1 Tree t2
-    collapse (mapTree f T)            	            = map f (collapse T) -- -> apply definition of T so T = Node T_value Tree t1 Tree t2
+--induction step: let Tree T = Node T_value Tree t1 Tree t2
+    collapse (mapTree f (Tree T))            	      = map f (collapse (Tree T)) -- -> apply definition of Tree so Tree T = Node T_value Tree t1 Tree t2
 
 <=> 																				  			= map f (collapse (Node T_value Tree t1 Tree t2)) -- -> apply inner function here it is collapse on right side
 
 <=>                                                 = map f (collapse t1 ++ [T_value] ++ collapse t2) -- -> apply definition of outer function map and not f since f can only be applied on data of type a and not of type [a] a list with elemnts of type a
 
-<=>                                                 = map f (collapse t1) ++ map f [T_value] ++ map f (collapse t2) -- -> 
+<=>                                                 = map f (collapse t1) ++ map f [T_value] ++ map f (collapse t2) -- -> apply map on f and [T_value]
+<=>                                                 = map f (collapse t1) ++ [f T_value] ++ map f (collapse t2) -- -> apply induction prerequisites collapse (mapTree f y) = map f (collapse y)
 
-<=>                                                 = collapse (mapTree t1) ++ [f T_value] ++ collapse (mapTree t2) -- -> apply definition of outer function collapse from right to left on the left side of the equation
-<=>                                                 = collapse (Node (f T_value) (mapTree t1) (mapTree t2))
-<=>                                                 = collapse (mapTree f (Node T_value t1 t2))
+<=>                                                 = collapse (mapTree f t1) ++ [f T_value] ++ collapse (mapTree f t2) -- -> apply definition of outer function collapse from right to left on the left side of the equation
+<=>                                                 = collapse (Node (f T_value) (mapTree f t1) (mapTree f t2)) -- -> apply defintion of mapTree from right to left on right side of the equation
+
+<=>                                                 = collapse (mapTree f (Node T_value Tree t1 Tree t2)) -- -> apply definition if Tree T = Node T_value Tree t1 Tree t2
+<=>                                                 = collapse (mapTree f (Tree T)) 
