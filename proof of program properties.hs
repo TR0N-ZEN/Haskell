@@ -9,11 +9,11 @@ double :: [Int] -> [Int]
 double []       = []
 double (x:xs)   = (2 * x) : double xs
 
---what we want to proove / induction hypothesis:
+--what we want to proove a.k.a. induction hypothesis:
 sumList (double xs) = 2 * sumList xs
 
 
--- P(a): [Int]  -> {0,1} --P is a verfing function that checks if the hypthesis is true (1) or false (0) for a given term in this case a single argument a which is a list of integers
+-- P(a): [Int]  -> { 0, 1 } --P is a verfing function that checks if the hypthesis is true (1) or false (0) for a given term in this case a single argument a which is a list of integers
 -- P(a): a     	-> sumList(double a) = 2 * (sumList a)
 
 -- induction beginning: a = ys = [] 
@@ -45,13 +45,13 @@ sumList (double xs) = 2 * sumList xs
 
 ----the same with algebraic datatypes
 
-map :: (a -> a) -> [a] -> [a] -- function uses type polymorphism
+map :: (a -> a) -> [a] -> [a] -- function uses type polymorphism -- map takes as arguments a (a -> a) meaning  function depiciting from a to a and [a] meaning a list with elements of type a and returns [a] again meaning a list with elements of type a
 map f []        = []
 map f (x:xs)    = (f x) : (map f xs)
 
 data Tree a =  Nil | Node a Tree a Tree a -- data of type 'Tree' can have to forms either 'Nil' or 'Node a Tree a Tree a'
 
-mapTree :: (a -> a) -> Tree a -> Tree a
+mapTree :: (a -> a) -> Tree a -> Tree a -- since mapTree takes data of algebraic datatype Tree as an argument it needs to define behavior for all shapes of Tree which is two either 'Nil' or 'Node a Tree a Tree a'
 mapTree f Nil                       = Nil
 mapTree f (Node value1 tree1 tree2) = Node (f value1) (mapTree f tree1) (mapTree f tree2)
 
@@ -59,29 +59,30 @@ collapse :: Tree a -> [a]
 collapse Nil                      = []
 collapse Node value1 tree1 tree2  = collapse tree1 ++ [value1] ++ collapse tree2 
 
---what we are trying to prove a.k.a. induction hypothesis:
-collapse (mapTree (tree)) <=> map f (collapse (tree)) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
+--what we are trying to prove a.k.a. induction hypothesis: let Tree::a
+collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
 
--- induction beginning: x' = Nil 
 -- P(a): Tree   -> {0, 1}
--- P(x') :: x'     -> collapse (mapTree f (x')) = map f (collapse (x'))
-    collapse (mapTree f (tree a))       = map f (collapse (tree a))
-<=> collapse (mapTree f (Nil))          = map f (collapse Nil)
-<=> collapse Nil                        = map f []
-<=> []                                  = []
+-- P(a): a     	-> collapse (mapTree f (a)) = map f (collapse (a))
+
+-- induction beginning: a = y = Nil
+-- P(y): y 			-> collapse(mapTree f y) = map f (collapse y)
+    collapse (mapTree (f) (y))       	= map f (collapse y) -- since f can only be applied to a and not [a] it doesn't need to be put in round bracktes on the right side of the equation
+<=> collapse (mapTree (f) Nil)        = map f (collapse Nil) 
+<=> collapse Nil                      = map f []
+<=> []                                = []
+-- P(y) = 1
 -- P(Nil) = 1
 
 --induction prerequisites:
--- P(x): x      -> collapse (mapTree f (x)) = map f (collapse (x))
--- P(x) = 1
--- 
+-- P(y): y      -> collapse (mapTree f (y)) = map f (collapse (y))
+-- P(y) = 1
 
---induction step
---
-    collapse (mapTree f x)                          = map f (collapse x)
-<=> collapse (mapTree f (Node value1 tree1 tree2))  = map f (collapse (Node value1 tree1 tree2))
-<=>                                                 = map f (collapse tree1 ++ [value1] ++ collapse tree2)
-<=>                                                 = map f (collapse tree1) ++ map f [value1] ++ map f (collapse tree2)
-<=>                                                 = collapse (mapTree (tree1)) ++ [f value1] ++ collapse (mapTree (tree2)) --from the line before to this line the induction prerequisites have been used
-<=>                                                 = collapse (Node (f value1) (mapTree tree1) (mapTree tree2))
-<=>                                                 = collapse (mapTree f (Node value1 tree1 tree2))
+--induction step: let T = Node T_value Tree t1 Tree t2
+    collapse (mapTree f T)            	            = map f (collapse T) -- -> apply definition of T so T = Node T_value Tree t1 Tree t2
+<=> 																				  			= map f (collapse (Node T_value Tree t1 Tree t2)) -- -> apply inner function here it is collapse on left side
+<=>                                                 = map f (collapse t1 ++ [T_value] ++ collapse t2) -- -> apply definition of outer function map and not f since f can only be applied on data of type a and not of type [a] a list with elemnts of type a
+<=>                                                 = map f (collapse t1) ++ map f [T_value] ++ map f (collapse t2) -- -> apply inner function map on f and [T_value]
+<=>                                                 = collapse (mapTree t1) ++ [f T_value] ++ collapse (mapTree t2) -- -> apply definition of outer function collapse from right to left on the left side of the equation
+<=>                                                 = collapse (Node (f T_value) (mapTree t1) (mapTree t2))
+<=>                                                 = collapse (mapTree f (Node T_value t1 t2))
