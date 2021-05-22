@@ -52,12 +52,12 @@ map f (x:xs)    = (f x) : (map f xs)
 data Tree a =  Nil | Node a Tree a Tree a -- data of type 'Tree' can have to forms either 'Nil' or 'Node a Tree a Tree a'
 
 mapTree :: (a -> a) -> Tree a -> Tree a -- since mapTree takes data of algebraic datatype Tree as an argument it needs to define behavior for all shapes of Tree which is two either 'Nil' or 'Node a Tree a Tree a'
-mapTree f Nil                       = Nil
-mapTree f (Node value1 tree1 tree2) = Node (f value1) (mapTree f tree1) (mapTree f tree2)
+mapTree f Nil                       					= Nil
+mapTree f (Node value Tree tree1 Tree tree2) 	= Node (f value) Tree (mapTree f tree1) Tree (mapTree f tree2)
 
 collapse :: Tree a -> [a]
-collapse Nil                      = []
-collapse Node value1 tree1 tree2  = collapse tree1 ++ [value1] ++ collapse tree2 
+collapse Nil                      					= []
+collapse Node value Tree tree1 Tree tree2  	= collapse tree1 ++ [value] ++ collapse tree2
 
 --what we are trying to prove a.k.a. induction hypothesis: let Tree::a
 collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
@@ -68,8 +68,8 @@ collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that wh
 -- induction beginning: a = y = Nil
 -- P(y): y 			-> collapse(mapTree f y) = map f (collapse y)
     collapse (mapTree (f) (y))       	= map f (collapse y) -- since f can only be applied to a and not [a] it doesn't need to be put in round bracktes on the right side of the equation
-<=> collapse (mapTree (f) Nil)        = map f (collapse Nil) 
-<=> collapse Nil                      = map f []
+<=> collapse (mapTree (f) Nil)        = map f (collapse Nil) -- -> apply defintion of mapTree on left side of the equation and defintion of collpse on right side of equation
+<=> collapse Nil                      = map f [] -- -> apply definition of of collapse on left side of the equation and definition of map on the right side of the equation
 <=> []                                = []
 -- P(y) = 1
 -- P(Nil) = 1
@@ -80,9 +80,13 @@ collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that wh
 
 --induction step: let T = Node T_value Tree t1 Tree t2
     collapse (mapTree f T)            	            = map f (collapse T) -- -> apply definition of T so T = Node T_value Tree t1 Tree t2
-<=> 																				  			= map f (collapse (Node T_value Tree t1 Tree t2)) -- -> apply inner function here it is collapse on left side
+
+<=> 																				  			= map f (collapse (Node T_value Tree t1 Tree t2)) -- -> apply inner function here it is collapse on right side
+
 <=>                                                 = map f (collapse t1 ++ [T_value] ++ collapse t2) -- -> apply definition of outer function map and not f since f can only be applied on data of type a and not of type [a] a list with elemnts of type a
-<=>                                                 = map f (collapse t1) ++ map f [T_value] ++ map f (collapse t2) -- -> apply inner function map on f and [T_value]
+
+<=>                                                 = map f (collapse t1) ++ map f [T_value] ++ map f (collapse t2) -- -> 
+
 <=>                                                 = collapse (mapTree t1) ++ [f T_value] ++ collapse (mapTree t2) -- -> apply definition of outer function collapse from right to left on the left side of the equation
 <=>                                                 = collapse (Node (f T_value) (mapTree t1) (mapTree t2))
 <=>                                                 = collapse (mapTree f (Node T_value t1 t2))
