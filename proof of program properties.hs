@@ -10,7 +10,7 @@ double []       = []
 double (x:xs)   = (2 * x) : double xs
 
 --what we want to proove a.k.a. induction hypothesis:
-sumList (double xs) = 2 * sumList xs
+sumList (double ys) = 2 * sumList ys -- for all possible ys- meaning all possible lists
 
 
 -- P(a): [Int]  -> { 0, 1 } --P is a verfing function that checks if the hypthesis is true (1) or false (0) for a given term in this case a single argument a which is a list of integers
