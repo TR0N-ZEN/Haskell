@@ -60,23 +60,23 @@ collapse Nil                      					= []
 collapse Node value Tree tree1 Tree tree2  	= collapse Tree tree1 ++ [value] ++ collapse Tree tree2
 
 --what we are trying to prove a.k.a. induction hypothesis: let Tree::a
-collapse (mapTree (f) (a)) <=> map f (collapse a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
+collapse (mapTree (f) (Tree a)) <=> map f (collapse Tree a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
 
--- P(a): Tree   -> { 0, 1 }
--- P(a): a     	-> collapse (mapTree f a) = map f (collapse a)
+-- P(Tree a): Tree   -> { 0, 1 }
+-- P(Tree a): a     	-> collapse (mapTree f a) = map f (collapse a)
 
--- induction beginning: a = y = Nil
+-- induction beginning: Treea a = Tree y = Nil
 -- P(y): y 			-> collapse(mapTree f y) = map f (collapse y)
-    collapse (mapTree (f) (y))       	= map f (collapse y) -- since f can only be applied to a and not [a] it doesn't need to be put in round bracktes on the right side of the equation
+    collapse (mapTree (f) (Tree y))   = map f (collapse Tree y) -- since f can only be applied to a and not [a] it doesn't need to be put in round bracktes on the right side of the equation
 <=> collapse (mapTree (f) Nil)        = map f (collapse Nil) -- -> apply defintion of mapTree on left side of the equation and defintion of collpse on right side of equation
 <=> collapse Nil                      = map f [] -- -> apply definition of of collapse on left side of the equation and definition of map on the right side of the equation
 <=> []                                = []
--- P(y) = 1
+-- P(Tree y) = 1
 -- P(Nil) = 1
 
 --induction prerequisites:
--- P(y): y      -> collapse (mapTree f y) = map f (collapse y)
--- P(y) = 1
+-- P(Tree y): Tree y      -> collapse (mapTree f y) = map f (collapse y)
+-- P(Tree y) = 1
 
 --induction step: let Tree T = Node T_value Tree t1 Tree t2
     collapse (mapTree f (Tree T))            	      = map f (collapse (Tree T)) -- -> apply definition of Tree so Tree T = Node T_value Tree t1 Tree t2
