@@ -60,36 +60,37 @@ collapse Nil                      					= []
 collapse Node value Tree tree1 Tree tree2  	= collapse Tree tree1 ++ [value] ++ collapse Tree tree2
 
 --what we are trying to prove a.k.a. induction hypothesis: let Tree::a
-collapse (mapTree (f) (Tree a)) <=> map f (collapse Tree a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
+collapse (mapTree (f) (Tree a)) <=> map (f) (collapse Tree a) -- round brackets mean that what is in between them is an argument on which the fucntion standing before it will be applied e.g. a (x) means function a is applied on x
 
 -- P(Tree a): Tree   -> { 0, 1 }
--- P(Tree a): a     	-> collapse (mapTree f a) = map f (collapse a)
+-- P(Tree a): a     	-> collapse (mapTree f Tree a) = map f (collapse Tree a)
 
 -- induction beginning: Treea a = Tree y = Nil
--- P(y): y 			-> collapse(mapTree f y) = map f (collapse y)
-    collapse (mapTree (f) (Tree y))   = map f (collapse Tree y) -- since f can only be applied to a and not [a] it doesn't need to be put in round bracktes on the right side of the equation
-<=> collapse (mapTree (f) Nil)        = map f (collapse Nil) -- -> apply defintion of mapTree on left side of the equation and defintion of collpse on right side of equation
-<=> collapse Nil                      = map f [] -- -> apply definition of of collapse on left side of the equation and definition of map on the right side of the equation
-<=> []                                = []
+-- P(y): y 			-> collapse(mapTree f Tree y) = map f (collapse Tree y)
+    collapse (mapTree (f) (Tree y))		= map f (collapse Tree y) -- since f can only be applied to a and not [a] it doesn't need to be put in round bracktes on the right side of the equation
+<=> collapse (mapTree (f) Nil)				= map f (collapse Nil) -- -> apply defintion of mapTree on left side of the equation and defintion of collpse on right side of equation
+<=> collapse Nil  										= map f [] -- -> apply definition of of collapse on left side of the equation and definition of map on the right side of the equation
+<=> []																= []
 -- P(Tree y) = 1
 -- P(Nil) = 1
 
 --induction prerequisites:
--- P(Tree y): Tree y      -> collapse (mapTree f y) = map f (collapse y)
--- P(Tree y) = 1
+-- P(Tree y): Tree y		for y element of { t1, t2 }
+-- P(Tree y) = 1				=> collapse (mapTree f Tree y) = map f (collapse Tree y) so t1, t2 are arbitrary Trees for which the induction hypothesisi is true, but is it for the tree containing them both? This is what we try to proof with the induction step 
 
 --induction step: let Tree T = Node T_value Tree t1 Tree t2
-    collapse (mapTree f (Tree T))            	      = map f (collapse (Tree T)) -- -> apply definition of Tree so Tree T = Node T_value Tree t1 Tree t2
+-- -> The idea is to create a term containing the induction prerequisition with Tree t1 and Tree t2
+--		and after application of induction prerequisite create the form of the term on the other side of the equation
+    collapse (mapTree f (Tree T))			= map f (collapse (Tree T)) -- -> apply definition of Tree so Tree T = Node T_value Tree t1 Tree t2
 
-<=> 																				  			= map f (collapse (Node T_value Tree t1 Tree t2)) -- -> apply inner function here it is collapse on right side
+<=>																		= map f (collapse (Node T_value Tree t1 Tree t2)) -- -> apply inner function here it is collapse on right side
 
-<=>                                                 = map f (collapse t1 ++ [T_value] ++ collapse t2) -- -> apply definition of outer function map and not f since f can only be applied on data of type a and not of type [a] a list with elemnts of type a
+<=>																		= map f (collapse Tree t1 ++ [T_value] ++ collapse Tree t2) -- -> apply outer function map and not f since f can only be applied on data of type a and not of type [a] a list with elemnts of type a; the application of map is not that obvious but thinking that map applied in f and a list L3, with L3 = L1 ++ L2 is the same as applying map on f and L1 and concatenating it with the result of  the application of map on f and L2, formal, let L3 = L1 ++ L2 => map f L3 = map f L1 ++ map f L2 
 
-<=>                                                 = map f (collapse t1) ++ map f [T_value] ++ map f (collapse t2) -- -> apply map on f and [T_value]
-<=>                                                 = map f (collapse t1) ++ [f T_value] ++ map f (collapse t2) -- -> apply induction prerequisites collapse (mapTree f y) = map f (collapse y)
+<=>																		= map f (collapse Tree t1) ++ map f [T_value] ++ map f (collapse Tree t2) -- -> apply induction prerequisites collapse (mapTree f y) = map f (collapse y)
 
-<=>                                                 = collapse (mapTree f t1) ++ [f T_value] ++ collapse (mapTree f t2) -- -> apply definition of outer function collapse from right to left on the left side of the equation
-<=>                                                 = collapse (Node (f T_value) (mapTree f t1) (mapTree f t2)) -- -> apply defintion of mapTree from right to left on right side of the equation
+<=>																		= collapse (mapTree f Tree t1) ++ [f T_value] ++ collapse (mapTree f Tree t2) -- outer form not achieved. Is there a function with an equality that transforms this term into wanted form, so a single collapse call -> apply definition of outer function collapse from right to left on the left side of the equation
+<=>																		= collapse (Node (f T_value) (mapTree f Tree t1) (mapTree f Tree t2)) -- outer form achieved -> next inner form to be achieved is a singel mapTree call -> apply defintion of mapTree from right to left on right side of the equation
 
-<=>                                                 = collapse (mapTree f (Node T_value Tree t1 Tree t2)) -- -> apply definition if Tree T = Node T_value Tree t1 Tree t2
-<=>                                                 = collapse (mapTree f (Tree T)) 
+<=>																		= collapse (mapTree f (Node T_value Tree t1 Tree t2)) -- -> apply definition of Tree T = Node T_value Tree t1 Tree t2 from right to left
+<=>																		= collapse (mapTree f (Tree T))
