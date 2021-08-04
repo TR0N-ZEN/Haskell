@@ -10,7 +10,7 @@ add :: Int -> Int -> Int
 add x y = x + y
 
 subtract :: Int -> Int -> Int
-subtract x y = Add x -y
+subtract x y = add x (-y)
 
 multiply::Float -> Float -> Float
 multiply x y = x * y
@@ -18,12 +18,13 @@ multiply x y = x * y
 divide:: Float -> Float -> Float
 divide x y = x / y
 
-concatenate:: String -> String -> String
+concatenate ::String -> String -> String
 concatenate s1 s2 = s1 ++ " " ++ s2
+
 
 main::IO()
 main = do
-	add 34 23
-	subtract 34 23
-	multiply 34 23
-	divide 34 23
+ print(add 34 23)
+ print(Main.subtract 34 23) -- 'main.subtract' means: use definition 'subtract' contained in module 'Main'
+ print(multiply 34 23)
+ print(divide 34 23)
