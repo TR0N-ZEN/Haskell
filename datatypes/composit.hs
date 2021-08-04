@@ -23,6 +23,8 @@ function_on_custom_type::Custom_type -> Float
 function_on_custom_type (a,b) = a + b
 
 --list
+list = [2,3,5] -- list of
+list_2 = ["a","d","B"]
 sumList::[Int] -> Int --function on list
 sumList [] = 0
 sumList (x:xs) = x + sumList xs --x is a variable for the first element in the list and xs for the rest of the list apart from the first element
