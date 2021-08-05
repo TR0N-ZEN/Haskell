@@ -21,7 +21,7 @@ foldr' f z (x : xs)  = f x (foldr' f z xs)
 
 --foldr' calculative-orperation neutral-element-of-calculative-orperation [...]
 sumList :: [Int] -> Int
-sumList = foldr' (+) 0 -- sumList is an underfed/partially applied verions of foldr'
+sumList = foldr' (+) 0 -- sumList is an underfed/partially applied verion of foldr'
 
 prodList :: [Int] -> Int
 prodList = foldr' (*) 1 -- <=> "prodList = foldr (*) 1" so prodList is an underfed version of foldr waiting for its third parameter, the list of Integers
@@ -32,7 +32,7 @@ prodList = foldr' (*) 1 -- <=> "prodList = foldr (*) 1" so prodList is an underf
 filter' :: (Int -> Bool) -> [Int] -> [Int]
 filter' _ []         = [] -- _ is a wildcard and matches any data of type (Int -> Bool)
 filter' p (x : xs)
- | p x               = x : filter' p xs --since the function p returns a bool it returns true or false causing this line to execute or not and consecutively letting the next line take action if p x evaluats to false, p x can be considered ad conition p on x if that is fullfilled the filter doesn't filter it out
+ | p x               = x : filter' p xs --since the function p returns a bool it returns True or False causing this line to execute or not and consecutively letting the next line take action if p x evaluats to False, p x can be considered a conition p on x if that is fullfilled the filter doesn't filter it out
  | otherwise         = filter' p xs
 
 even' :: Int -> Bool
@@ -40,6 +40,10 @@ even' = even --even' is now an alias of even
 --or
 --even' x = mod x 2 == 0
 --even' x = (mod x 2 == 0) more clearly
+
+uneven :: Int -> Bool
+uneven = odd
+--uneven x = not (even x)
 
 -----------------------------------------
 
@@ -50,7 +54,7 @@ compose :: (Int -> Int) -> (Int -> Int) -> Int -> Int
  --Third an integer
 compose f g x = f (g x)
 --a predefined writing style for composing functions is
---'(f . g) x'  since '(f . g) x' <=> 'f (g x)'
+--'(f . g) x'  while '(f . g) x' <=> 'f (g x)'
 
 -----------------------------------------
 
@@ -59,7 +63,7 @@ compose f g x = f (g x)
 quicksort :: [Int] -> [Int]
 quicksort [] = []
 quicksort (x : xs) = quicksort (filter (x >) xs) ++ [x] ++ quicksort (filter (x <=) xs)
---here the functions (x >) and (x <=) passed to the filter functions are malnutritioned
+--here the functions (x >) and (x <=) passed to the filter functions are malnutritioned or you could say they are lambda functions
 
 
 -----------------------------------------
@@ -71,13 +75,14 @@ main = do
  print(prodList [1, 2, 3, 4]) --result should be 24
  print(filter' even' [1, 2, 3, 4]) --result should be [2,4]
  --anonymous/lambda functions
- print((\ n -> n * 2) 33)
- --(\ n -> n * 2)
+ print((*2) 33)
+ -- (*2)
+ -- <=>
+ -- (\ n -> n * 2)
  -- <=>
  -- f :: Int -> Int
  -- f n = n * 2'
- -- <=>
- -- (*2)
+ -- 
  -- thats why the following two lines return the same values
  print(map' (\x -> x * 2) [1, 2, 3, 4]) --result should be [2, 4, 6, 8]
  print(map' (*2) [1, 2, 3, 4]) --result should be [2, 4, 6, 8]
