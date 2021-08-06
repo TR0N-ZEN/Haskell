@@ -1,6 +1,7 @@
 --tupel
 --'type VARIABLENAME = (DATATYPE, ... DATATYPE)'
 --e.g. 'type Triple = (Int,Int,Int)'
+--e.g. 'type Triple = (Int,Char,Int)'
 
 --list
 --'[DATATYPE]'
@@ -12,15 +13,17 @@
 --algebraic datatypes
 --'data VARIABLENAME = VALUE | VALUE | ... VALUE'
 
---important keywords: 'data', 'type'
+--important keywords: 
+--'data' for definition of algebraic data,
+--'type' for definition of custom types via other datatypes which might be nested
 
 module Main where
 
 --tupel / custom type
-type Custom_type = (Float, Float) --tupel
+type CustomType = (Float, Float) --tupel
 
-function_on_custom_type::Custom_type -> Float
-function_on_custom_type (a,b) = a + b
+functionOnCustomType::CustomType -> Float
+functionOnCustomType (a,b) = a + b
 
 --list
 list = [2,3,5] -- list of
@@ -40,10 +43,13 @@ data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
 isWorkingDay :: Day -> Bool
 isWorkingDay Saturday   = False
 isWorkingDay Sunday     = False
-isWorkingDay _          = True -- the underscore "_" is a wildcard meaning it means everything at the same time
+isWorkingDay _          = True -- the underscore "_" is a wildcard meaning it matches everything
 
-data Expression = Literal Int | Add Expression Expression | Sub Expression Expression --recursive data constructor
-                --two places | three places and the first place holds Add | three places and the first place holds Sub
+
+--recursive data constructor
+data Expression = Literal Int | Add Expression Expression | Sub Expression Expression
+--e.g. Add Sub Lit 9 Lit 3 Lit 4
+--			or more clearly Add( Sub (Lit 9 Lit 3) Lit 4 )
 
 eval :: Expression -> Int
 eval (Literal n)        = n

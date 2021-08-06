@@ -14,24 +14,31 @@ so here some examples for the fundamental basics:
 
 > **pattern matching for arguments/parameters**
 >```haskell
->swap :: Char -> Char -> [Char]
->swap x y = y ++ x 
+>swap :: (Int,Int) -> (Int,Int)
+>swap (a,b) = (b,a)
 >```
->The function *swap* takes two parameters of type *Char* and returns a value of type *[Char]*.  
->The first argument is bound to the variable x and the second to y.  
->Now we can describe what should be done with the input.  
->In this function *swap* we take y (the second argument) and put x (the first argument) on it's tail and return this new value.  
+>The function *swap* takes one parameter of type *(Int,Int)* and returns a value of type *(Int,Int)*.  
+>If the argument matches the pattern (a,b), the first entry of the tupel is bound to a and the second entry to b.  
+>Now we can describe what should be done with the input using the variables a and b
+>In this function *swap* we take a and set it as the second entry and take b to set it as first entry in the tupel which will be returned.  
 >```haskell
 >isEmpty :: [Int] -> Bool
 >isEmpty [] = True
 >isEmpty xs = False
 >```
 >*isEmpty* returns *True* if the argument is *[ ]* (the empty list) otherwise the third line with *isEmpty xs* will be matched and it's evaluation called so it returns *False*. This is somewhat of a case differentiation but there is another, better and more versatile way to do so.
+>```haskell
+>isEmpty' :: [Int] -> Bool
+>isEmpty' list = case list of
+> [] -> True
+> xs -> False
+>```
+>Does the same as *isEmpty* just with the case differentiation on the right side.
 
 > **case differentiation**
 >```haskell
->max :: Int -> Int -> Int
->max x y
+>max' :: Int -> Int -> Int
+>max' x y
 > | x < y = y -- means: if x is bigger than y  then return y
 > | otherwise x -- else return x
 >```

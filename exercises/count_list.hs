@@ -7,11 +7,11 @@ main = do
 --program that counts the number of occurences of all natural numbers in a given list
 
 
-appears :: Int -> [Int] -> Int
-appears n [] = 0
-appears n (x:xs)
- | n == x = appears n xs + 1
- | otherwise = appears n xs
+countAppearances :: Int -> [Int] -> Int
+countAppearances n [] = 0
+countAppearances n (x:xs)
+ | n == x = countAppearances n xs + 1
+ | otherwise = countAppearances n xs
 
 tillCounted :: (Int -> [Int] -> Int) -> [Int] -> [Int] -> Int -> [Int]
 tillCounted f xs ys n
@@ -19,4 +19,4 @@ tillCounted f xs ys n
  | otherwise = tillCounted f xs (f n xs :ys)  (n+1)
 
 countNInList :: [Int] -> [Int]
-countNInList xs = tillCounted appears xs [] 0
+countNInList xs = tillCounted countAppearances xs [] 0
