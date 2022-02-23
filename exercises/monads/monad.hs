@@ -34,16 +34,25 @@ urgrossmuttergvvs p = case father p of
   Nothing -> Nothing
   Just gv -> mother gv
 
--- it follows a monad
+
+------------------------------------------------------------------------------
+
+----
+-- it follows the definition of functions of the so called 'maybe monad'
+-- the notation with braces around the funtionname means the functionname is used in infix notation so between the operands
 (>==) :: Maybe a -> (a -> Maybe b) -> Maybe b
-Nothing >== f = Nothing 
+Nothing >== f = Nothing
 (Just w) >== f = f w
 
-urgrossmuttergvvs' :: Person -> Maybe Person
-urgrossmuttergvvs' p = return p >== father >== father >== mother -- left associative, so: (((return p) >== father) >== father) >== mother
+return :: a -> Maybe a
 
--- the monad (>==) a.k.a. the 'maybe monad' is left associative thats the reason why we dont have to write
--- urgrossmuttergvvs' p = (((return p) >== father) >== father) >== mother
+----
+
+urgrossmuttervgvs' :: Person -> Maybe Person
+urgrossmuttervgvs' p = return p >== father >== father >== mother -- left associative, so: (((return p) >== father) >== father) >== mother
+
+-- (>==) is left associative, thats the reason why we dont have to write
+-- urgrossmuttervgvs' p = (((return p) >== father) >== father) >== mother
 
 -- return is defined in Prelude like so:
 {-
@@ -79,10 +88,13 @@ urgrosseltern :: Person -> [Person]
 urgrosseltern p = [p] >=== eltern >=== eltern >=== eltern
 
 {-
+
 the monad in it's real abstract form
-actual monads in haskell have more functions
 
 class Monad m where
  (>>=) :: m a -> (a -> m b) -> m b
+ (>>) :: m a -> m b -> m b
  return :: a -> m a
+ fail :: String -> m a
+
 -}

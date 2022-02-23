@@ -2,40 +2,41 @@
 
 ## booleans
 ```haskell
-	True
-	False
+  True
+  False
 ```
 with their opertions of the bolean algebra  
 **&&** for *and*,  
 **||** for *or*,  
 **not** for *not*.
 ```haskell
-	True && False
-	False || True
+  True && False
+  False || True
 ```
 Boolean values are the result of any operation on other types with the operational signs **==**, **<**, **>**, **<=** and **>=**
 
 ---
+
 ## numbers
 ### integers
 ```haskell
-	1
-	33
+  1
+  33
 ```
 with their operations **+**, **-**, __*__,  __^__, **div**, **mod**, **abs**, **negate**, **<**, **>**, **<=**, **>=** and **==**
  ```haskell
-	1 + 5
-	33 * (-2)
-	33^2
-	div 33 5
-	abs (-3)
-	...
+  1 + 5
+  33 * (-2)
+  33^2
+  div 33 5
+  abs (-3)
+  ...
 ```
 ### floats
  ```haskell
-	1.23 + 5
-	33.31 * (-2)
-	...
+  1.23 + 5
+  33.31 * (-2)
+  ...
 ```
 **+ - * / == /= < > <= >= abs sin cos ceiling floor round fromInt read show signum**
 
@@ -63,7 +64,6 @@ with operations **++** and **fromEnum**:Char -> Int
 
 ---
 
-
 # composit datatypes
 
 ## arrays
@@ -79,7 +79,30 @@ or any other arbitrary type.
 
 ---
 
-## algebraic datatypes
+## tupel
+hold data of arbitrarily different types in one instance
+```haskell
+(3.2, "a", 33, "AzH")
+```
+
+---
+
+## datatype synonyms
+define kinds of tuples which hold a fixed number of elements with defined datatypes
+```haskell
+type Ct = (Float, Char, Int, Expression)
+```
+> so
+>```haskell
+> (5.9, "W", 99, (Add Lit 4 Lit 3))
+>```
+> is avalid term of type *Ct*
+
+
+
+---
+
+## custom datatypes
 which are built by using the keyword **data** at the beginning
 ```haskell
 data typename = value_1 | value_2 | ... value_n
@@ -118,19 +141,13 @@ for example
 >```
 
 ---
-## tupel
-hold data of arbitrarily different types in one instance
+
+The monad is a class 
+
 ```haskell
-(3.2, "a", 33, "AzH")
-```
----
-## custom datatypes
-define kinds of tuples which hold a fixed number of elements with defined datatypes
-```haskell
-type Ct = (Float, Char, Int, Expression)
-```
-> so
->```haskell
-> (5.9, "W", 99, (Add Lit 4 Lit 3))
->```
-> is avalid term of type *Ct*
+class Monad m where
+ (>>=) :: m a -> (a -> m b) -> m b
+ (>>) :: m a -> m b -> m b
+ return :: a -> m a
+ fail :: String -> m a
+```a
