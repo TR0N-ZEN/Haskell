@@ -32,3 +32,9 @@ For help type
 Read the beginning of the *functions.md* in the folder *functions* and look up unkown details about datatypes in the folder *datatypes*.  
 Understand *functions of higher order*.  
 Understand *type polymorphism* and *proof of program properties*.
+
+
+---
+# external resources:
++ https://www.haskell.org/tutorial/intro.html
++ https://www.haskell.org/ghc/download_ghc_9_0_2.html

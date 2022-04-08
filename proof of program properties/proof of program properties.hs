@@ -33,12 +33,12 @@ sumList (double ys) = 2 * sumList ys -- for all possible ys- meaning all possibl
 -- it is sumList (double ys) = 2 * (sumList ys)
 -- let ys' = y : ys with y :: Int
     sumList (double ys')            = 2 * (sumList ys') -- -> construct term containing ys so apply ys' = y : ys
-<=> sumList (double (y : ys))        = 2 * (sumList ys') -- -> apply definition of inner function here it is double on the left side of equation 
-<=> sumList ((2 * y) : double ys)    = 2 * (sumList ya') -- -> apply definition of outer function here it is sumList on the left side of equation
-<=> (2 * y) + sumList (double ys)    = 2 * (sumList ys') -- -> apply induction prerequisite sumList (double ys) = 2 * (sumList ys) on the left side of the equation
+<=> sumList (double (y : ys))       = 2 * (sumList ys') -- -> apply definition of inner function here it is double on the left side of equation 
+<=> sumList ((2 * y) : double ys)   = 2 * (sumList ya') -- -> apply definition of outer function here it is sumList on the left side of equation
+<=> (2 * y) + sumList (double ys)   = 2 * (sumList ys') -- -> apply induction prerequisite sumList (double ys) = 2 * (sumList ys) on the left side of the equation
 <=> (2 * y) + 2 * sumList ys        = 2 * (sumList ys') -- -> apply definition of outer function on left side of the equation here it is summation of two factor - so apply law of distribution
 <=> 2 * (y + sumList ys)            = 2 * (sumList ys') -- -> apply definition of sumList from right to left on the left side of equation
-<=> 2 * (sumList ys')                = 2 * (sumList ys') -- terms are obviously equal so induction hypothesis is true
+<=> 2 * (sumList ys')               = 2 * (sumList ys') -- terms are obviously equal so induction hypothesis is true
 -- P(xs) = 1
 
 
