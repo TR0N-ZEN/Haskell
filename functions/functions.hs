@@ -4,6 +4,9 @@
 ---and on and on 
 --'functionname :: datatype -> ... -> datatype'
 
+f :: Int -> Int -> Int 
+f x y = x + y
+
 --pattern matching
 swap :: (Int,Int) -> (Int,Int)
 swap (a,b) = (b,a)
@@ -31,6 +34,7 @@ maxOfList [] = 0
 maxOfList (x:xs) --decomposition of the argument/list into a first element x and the remaining list xs
  | x > maxOfList xs = x
  | otherwise = maxOfList xs
+
 
 --inline defintions
 maxSquare :: Int -> Int -> Int

@@ -49,7 +49,7 @@ isWorkingDay _          = True -- the underscore "_" is a wildcard meaning it ma
 --recursive data constructor
 data Expression = Literal Int | Add Expression Expression | Sub Expression Expression
 --e.g. Add Sub Lit 9 Lit 3 Lit 4
---			or more clearly Add( Sub (Lit 9 Lit 3) Lit 4 )
+--      or more clearly Add( Sub (Lit 9 Lit 3) Lit 4 )
 
 eval :: Expression -> Int
 eval (Literal n)        = n
