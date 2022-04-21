@@ -23,7 +23,7 @@ concatenate s1 s2 = s1 ++ " " ++ s2
 
 
 main::IO()
-main = do
+main do =
  print(add 34 23)
  print(Main.subtract 34 23) -- 'main.subtract' means: use definition 'subtract' contained in module 'Main'
  print(multiply 34 23)

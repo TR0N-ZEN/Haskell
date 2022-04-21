@@ -67,3 +67,21 @@ pythagoras x y = sqrt (let square z = z * z in square x + square y) --'let' is u
 sumSquares :: Int -> Int
 sumSquares 0 = 0
 sumSquares i = i * i + sumSquares (i - 1)
+
+
+-- lambda abstraction
+increase = \x -> x+1 --instead of increase x = x + 1
+add = \x y -> x + y  -- instead of add x y = x + y
+
+-- function mal nutriition
+increase = (+1) -- and increase = (1+) should also be possible
+add = (+)
+
+---constructor function for an infinite list
+ones = 1 : ones
+
+numsFrom n = n : numsFrom (n+1)
+
+numsFrom2 = numsFrom 2
+
+squares = map (^2) (numsFrom 0)

@@ -23,7 +23,7 @@ mother "Wilfried" = Just "Ilse"
 mother _ = Nothing
 
 grossmuttervs :: Person -> Maybe Person
-grossmuttervs p = case father p of
+grossmuttervs p = case father p of -- checking on the father of p which is the parameter of grossmuttervs
  Nothing -> Nothing
  Just v -> mother v
  
@@ -96,5 +96,7 @@ class Monad m where
  (>>) :: m a -> m b -> m b
  return :: a -> m a
  fail :: String -> m a
+
+-- if that is right?
 
 -}

@@ -1,5 +1,7 @@
 # functions
-in haskell get declared like
+https://www.haskell.org/tutorial/functions.html
+
+functions in haskell get declared like
 ```haskell
 f :: datatype -> datatype
 ```

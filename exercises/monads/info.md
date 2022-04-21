@@ -7,3 +7,5 @@ class Monad m where
  return :: a -> m a
  fail :: String -> m a
 ```
+
+-- ob das stimmt?

@@ -32,11 +32,15 @@ sumList::[Int] -> Int --function on list
 sumList [] = 0
 sumList (x:xs) = x + sumList xs --x is a variable for the first element in the list and xs for the rest of the list apart from the first element
 
+-- list comprehension (= generating a list using mathematical operation)
+[ x*2 | x<-[1,2,3,4,5]] -- will generate list [2,4,6,8,10]
+
+
 --aliasses
-type Loc = Int --Loc is euqal to Int which is the amount of integers
+type Loc = Int --Loc is equal to Int which is the amount of integers
 type State = Loc -> Int --State is the amount of functions taking values of the amount of Loc and depicts them into the amount of Int
 
---algebraic datatypes
+--algebraic datatypes -why did he call it agebraic, because it is like a set and on all elements of this set you can perform operations?
 data Season = Spring | Summer | Autumn | Winter
 data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
 
@@ -60,3 +64,7 @@ height :: Expression -> Int
 height (Literal _)      = 1
 height (Add e1 e2)      = 1 + max (height e1) (height e2)
 height (Sub e1 e2)      = 1 + max (height e1) (height e2)
+
+data Tree = Int | Node Int Tree Tree -- is that right?
+
+data Tree Int = Nil | Node Int (Tree Int) (Tree Int)

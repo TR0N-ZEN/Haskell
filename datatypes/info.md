@@ -1,4 +1,5 @@
 # basic datatypes
+https://www.haskell.org/tutorial/goodies.html
 
 ## booleans
 ```haskell
